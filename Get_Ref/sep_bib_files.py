@@ -1,9 +1,9 @@
 import os,sys
 import zipfile
-from shutil import copy
+
+import extract_refs
 
 seed = "C:\\Users\\Sachin Sharma\\Downloads\\Compressed\\xyz"
-target = "C:\\Users\\Sachin Sharma\\Desktop\\Texy"
 
 for f1 in os.listdir(seed):
     in1 = seed+str("\\" + f1)
@@ -25,9 +25,10 @@ for f1 in os.listdir(seed):
 
         for f4 in os.listdir(in3):
                 if f4.lower().endswith(".bbl"):
-                    src = in3 + "\\" + f4
-                    dst = target + "\\" + f3.replace(".zip","") + ".BBL"
-                    copy(src,dst)
+                    with open(in3+ '\\' +f4) as f:
+                        text = f.read()
+
+                    extract_refs.lets_hit_it(text)
 
 
 
