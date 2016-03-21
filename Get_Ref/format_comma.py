@@ -1,4 +1,4 @@
-
+import time
 
 def get_refs(text):
     cont = True
@@ -9,7 +9,14 @@ def get_refs(text):
         if get_bib_item == -1:
             cont = False
             break
-        st = text.find("``", get_bib_item) + 2
+        st = text.find("``", get_bib_item)
+        if st == -1:
+            cont = False
+            break
+        st = st + 2
         ed = text.find(",''", st)
         print ' '.join(text[st:ed].replace('{','').replace('}','').strip().split())
+
+        print "----------"
+
         start = ed

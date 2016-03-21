@@ -8,7 +8,8 @@ def lets_hit_it(text):
     bib_text = text[first_bib:next_bib]
 
     num_blocks = bib_text.count("\\newblock")
+    time.sleep(1)
     if num_blocks == 0:
         format_comma.get_refs(text)
     elif num_blocks > 1:
-        format_block.get_refs(text)
+        format_block.get_refs(text, num_blocks)
