@@ -1,4 +1,4 @@
-import urllib
+from urllib.request import urlopen
 import feedparser
 import time
 import json
@@ -50,6 +50,6 @@ def clean(id):
 def call_api(id):
     c_id = clean(id)
     url = form_url(c_id)
-    response = urllib.urlopen(url).read()
+    response = urlopen(url).read()
     cont = parse_response(response)
     return cont

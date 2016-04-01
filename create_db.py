@@ -37,8 +37,12 @@ for f1 in os.listdir(seed):
             rp = Node("Paper", name = c_title, id = hashish.get_hash(c_title))
             graph.create(rp)
 
-
         for a in di['aut']:
+            try:
+                a = a.decode('utf-8')
+            except:
+                a = a.decode('latin-1')
+
             author_node = graph.find_one("Author", "name", a)
             if author_node:
                 aut = author_node
@@ -50,11 +54,11 @@ for f1 in os.listdir(seed):
 
 
         for c in di['cat']:
-            category_node = graph.find_one("Category", "name", c)
+            category_node = graph.find_one("Category", "name", c.decode('utf-8'))
             if category_node:
                 cat = category_node
             else:
-                cat = Node("Category", name=c)
+                cat = Node("Category", name=c.decode('utf-8'))
                 graph.create(cat)
             graph.create(Relationship(rp, "BelongsTo", cat))
 
@@ -72,7 +76,10 @@ for f1 in os.listdir(seed):
                 if f4.lower().endswith(".bbl"):
                     available = True
                     with open(in3+ '/' +f4) as f:
-                        text = f.read()
+                        try:
+                            text = text + '\n' + f.read()
+                        except:
+                            print("Pass B")
                     break
 
         if not available:
@@ -80,8 +87,10 @@ for f1 in os.listdir(seed):
                 if f4.lower().endswith(".tex"):
                     available = True
                     with open(in3+ '/' +f4) as f:
-                        text = text + '\n' + f.read()
-
+                        try:
+                            text = text + '\n' + f.read()
+                        except:
+                            print("Pass T")
         # Create Reference Relationship
 
         if available:
