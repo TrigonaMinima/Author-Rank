@@ -11,6 +11,16 @@ A domain specific author ranking system
 ### Database used
 Neo4j
 
+### Dependencies
+
+1. Python 3
+
+
+### Python package dependencies
+
+1. py2neo
+2. feedparser
+
 #### A glimpse
 
 ![Image1](https://github.com/TrigonaMinima/Author-Rank/blob/master/images/graph.png)
