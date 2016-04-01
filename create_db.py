@@ -79,7 +79,7 @@ for f1 in os.listdir(seed):
                         try:
                             text = text + '\n' + f.read()
                         except:
-                            print("Pass B")
+                            pass
                     break
 
         if not available:
@@ -90,7 +90,7 @@ for f1 in os.listdir(seed):
                         try:
                             text = text + '\n' + f.read()
                         except:
-                            print("Pass T")
+                            pass
         # Create Reference Relationship
 
         if available:
