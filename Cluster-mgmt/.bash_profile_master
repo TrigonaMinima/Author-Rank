@@ -26,6 +26,17 @@ export YARN_HOME=$HADOOP_HOME
 export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
 export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"
 
+
+# Starting spark commands
+# Check on localhost:8080
+alias start-all="/usr/local/spark/sbin/start-all.sh"
+alias stop-all="/usr/local/spark/sbin/stop-all.sh"
+
+# Starting HDFS commands
+# Check on localhost:50070
+alias start-dfs="/usr/local/hadoop/sbin/start-dfs.sh"
+alias stop-dfs="/usr/local/hadoop/sbin/stop-dfs.sh"
+
 # pyspark related variables
 export PYSPARK_PYTHON=python
 export PYTHONHASHSEED=0
