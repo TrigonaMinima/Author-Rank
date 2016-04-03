@@ -23,4 +23,4 @@ Neo4j
 
 #### A glimpse
 
-![Image1](https://github.com/TrigonaMinima/Author-Rank/blob/master/images/graph.png)
+![Image1](https://github.com/TrigonaMinima/Author-Rank/blob/master/Assets/graph.png)
