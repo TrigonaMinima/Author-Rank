@@ -6,7 +6,7 @@ from py2neo import authenticate, Graph, Node, Relationship
 
 graph = Graph("http://localhost:7474/db/data")
 
-seed="/media/beingcooper/New Volume/xyz"
+seed="/media/beingcooper/D29898B898989C93/Users/Sachin Sharma/Downloads/Compressed/xyz"
 
 
 for f1 in os.listdir(seed):
@@ -25,11 +25,12 @@ for f1 in os.listdir(seed):
 
         # Metadata extraction using Arxiv API
 
-        di = get_arxiv_meta.call_api(f3)
+        ppr_id = f3.replace('.zip','')
+        meta_res = get_arxiv_meta.call_api(ppr_id)
 
         # Node creation
 
-        c_title = hashish.compress(di['tit'])
+        c_title = hashish.compress(meta_res['tit'])
         rp_node = graph.find_one("Paper", "id", hashish.get_hash(c_title))
         if rp_node:
             rp = rp_node
@@ -37,10 +38,11 @@ for f1 in os.listdir(seed):
             rp = Node("Paper", name = c_title, id = hashish.get_hash(c_title))
             graph.create(rp)
 
-        for a in di['aut']:
+        for a in meta_res['aut']:
             try:
                 a = a.decode('utf-8')
             except:
+                print("latin",a)
                 a = a.decode('latin-1')
 
             author_node = graph.find_one("Author", "name", a)
@@ -53,7 +55,7 @@ for f1 in os.listdir(seed):
             graph.create(Relationship(aut, "Published", rp))
 
 
-        for c in di['cat']:
+        for c in meta_res['cat']:
             category_node = graph.find_one("Category", "name", c.decode('utf-8'))
             if category_node:
                 cat = category_node
@@ -65,7 +67,7 @@ for f1 in os.listdir(seed):
 
         # Extract References
 
-        in3 = (in2 + str("/" + f3)).replace(".zip","")
+        in3 = in2 + '/' + ppr_id
 
         if item_count == 1:
             with zipfile.ZipFile(in2+"/"+f3,"r") as zeep:
@@ -91,6 +93,8 @@ for f1 in os.listdir(seed):
                             text = text + '\n' + f.read()
                         except:
                             pass
+
+
         # Create Reference Relationship
 
         if available:
