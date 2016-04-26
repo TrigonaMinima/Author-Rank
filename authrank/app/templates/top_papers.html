@@ -67,7 +67,7 @@
       </div>
 
   <br><br>
-    {% if is_resp %}
+        {% if is_resp %}
 
             {% if error_code == 1 %}
               <div class="alert alert-danger">
@@ -76,14 +76,17 @@
 
               {% else %}
 
+                          <h4>Domain : <b>{{ title }}</b></h4>
                           {% if data | length == 0 %}
                                 <div class="alert alert-info">
                                 <p>No records found</p>
                                 </div>
                             {% else %}
 
+                                {% set i = 1 %}
                                 {% for item in data %}
-                                  <b>{{ item}}</b><br>
+                                  <b>{{ i }}. </b>{{ item}}<br>
+                                  {% set i = i + 1%}
                                   {% endfor %}
                           {% endif %}
 

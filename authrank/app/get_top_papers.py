@@ -17,6 +17,6 @@ def  get_top_papers(cat, limit):
     for i in range(0,len(resp)):
         list_papers.append(resp[i][0])
 
-    print(list_papers)
+
     return list_papers
 

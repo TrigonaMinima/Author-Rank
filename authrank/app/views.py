@@ -6,7 +6,7 @@ from app import app
 import os
 import zipfile
 
-from app import compare_rank, sys_update, get_top_authors, get_top_papers
+from app import compare_rank, sys_update, get_top_authors, get_top_papers, sub_mapping
 
 def allowed_file(filename):
     return '.' in filename and  filename.rsplit('.', 1)[1] == 'zip'
@@ -14,7 +14,7 @@ def allowed_file(filename):
 @app.route('/index', methods=['GET'])
 @app.route('/')
 def index():
-	return render_template('index.html')
+    return render_template('index.html')
 
 
 @app.route('/compare', methods = ['GET', 'POST'])
@@ -45,12 +45,12 @@ def feed():
 
             data = sys_update.graph_update(file.filename)
             if not data:
-            		error_code = 2
+                    error_code = 2
             elif data['E'] == True:
-            		error_code = 3
+                    error_code = 3
 
         else:
-        	error_code = 1
+            error_code = 1
 
 
     return render_template('feed.html', is_resp=is_resp, error_code = error_code, data = data)
@@ -61,34 +61,35 @@ def top_authors():
     error_code = 0
     is_resp = False
     data = []
-
+    title =''
     if request.method == 'POST':
         is_resp = True
         cat = request.form['cat']
         lim = request.form['lim']
-        print(cat, lim)
-
+        title = sub_mapping.map_id_to_name(cat)
         if not cat:
-        	error_code = 1
+            error_code = 1
         else:
-        	data = get_top_authors.get_top_authors(cat, lim)
+            data = get_top_authors.get_top_authors(cat, lim)
 
-    return render_template('top_authors.html', is_resp=is_resp, error_code = error_code, data = data)
+    return render_template('top_authors.html', is_resp=is_resp, error_code = error_code, data = data, title = title)
 
 
 @app.route('/top-papers', methods=['GET', 'POST'])
 def top_papers():
     error_code = 0
     is_resp = False
+    title =''
     data = []
 
     if request.method == 'POST':
         is_resp = True
         cat = request.form['cat']
         lim = request.form['lim']
+        title = sub_mapping.map_id_to_name(cat)
         if not cat:
-        	error_code = 1
+            error_code = 1
         else:
-        	data = get_top_papers.get_top_papers(cat, lim)
+            data = get_top_papers.get_top_papers(cat, lim)
 
-    return render_template('top_papers.html', is_resp=is_resp, error_code = error_code, data = data)
+    return render_template('top_papers.html', is_resp=is_resp, error_code = error_code, data = data, title = title)
