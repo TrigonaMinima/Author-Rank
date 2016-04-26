@@ -16,11 +16,12 @@ RETURN count(p)
 """
 
 #Calculation of Quality Score (q_score)
-
+'''
 for a in  graph.cypher.execute("match (n:Paper) RETURN n"):
 	node = a[0]
 	node['q_score'] = 0.01   #TBD
 	node.push()
+'''
 
 for i in range(0,6):    #TBD
 	for a in  graph.cypher.execute("match (n:Paper) RETURN n"):

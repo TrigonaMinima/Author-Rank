@@ -1,7 +1,7 @@
 import os,sys
 import zipfile
 
-import extract_refs, hashish, get_arxiv_meta
+import extract_refs, hashish, get_arxiv_meta, prep_node
 from py2neo import authenticate, Graph, Node, Relationship
 
 graph = Graph("http://localhost:7474/db/data")
@@ -20,10 +20,14 @@ for f1 in os.listdir(seed):
         item_count = len(os.listdir(in2))
         try:
             f3 = os.listdir(in2)[0]
+            ppr_id = f3.replace('.zip','')
+            meta_res = get_arxiv_meta.call_api(ppr_id)
+
+            prep_node.prep_node(graph, f3, in2, ppr_id, meta_res)
         except:
             continue
 
-        # Metadata extraction using Arxiv API
+'''
 
         ppr_id = f3.replace('.zip','')
         meta_res = get_arxiv_meta.call_api(ppr_id)
@@ -118,6 +122,6 @@ for f1 in os.listdir(seed):
                     graph.create(Relationship(rp, "Refers", ppr))
 
 
-
+'''
 
 

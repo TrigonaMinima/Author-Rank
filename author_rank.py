@@ -3,12 +3,14 @@ from pprint import pprint
 
 graph = Graph("http://localhost:7474/db/data")
 
+'''
 
 query = """
 match (n)-[:Published]->(m)-[:BelongsTo]->(c)
 where c.name = {cat} return n.name, sum(m.q_score) as Score
 order by Score DESC LIMIT 5;
 """
+'''
 
 # Current state : Finds the top author in each category
 

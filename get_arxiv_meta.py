@@ -26,8 +26,6 @@ def parse_response(response):
         for category in entry.tags:
             Cat.append(category['term'].strip().encode("utf-8"))
 
-        Cat = Cat[:-1]
-
         RP['id']=ID
         RP['pub']=Publish
         RP['tit']=Title
