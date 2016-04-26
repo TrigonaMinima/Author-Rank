@@ -1,0 +1,52 @@
+    {% extends 'layout.html' %}
+    {% block body %}
+
+    <div align="center">
+      <div class="col-lg-12">
+                <h2 class="page-header" align="center">
+                    Feed Papers - System Update
+                </h2>
+      </div>
+
+    <form action = "" method = "POST"  enctype = "multipart/form-data">
+         <div class="input-group margin-bottom-sm">
+         <input class="form-control" type=file name=file>
+         </div>
+         <br>
+         <input  class="btn btn-success btn-sm" type = "Submit" value="Feed"/>
+      </form>
+      </div>
+
+
+      <br><br>
+    {% if is_resp %}
+
+      {% if error_code == 2 %}
+        <div class="alert alert-danger">
+        <p>Invalid ID. Make sure the name of the file is the Arxiv ID of the paper</p>
+        </div>
+
+       {% elif error_code == 1%}
+        <div class="alert alert-danger">
+        <p>Please upload a ZIP file</p>
+        </div>
+
+       {% elif error_code == 3 %}
+        <div class="alert alert-info">
+        <p>Paper already exists</p>
+        </div>
+
+        {% else %}
+        <div class="alert alert-success">
+        <p>File uploaded successfully</p>
+        </div>
+        <h4><b>{{ data['T'] }}</b> added to the system</h4>
+        <h3>Total number of nodes updated : <b>{{ data['C'] }}</b></h3>
+
+        {% endif %}
+
+    {% endif %}
+
+
+{% endblock %}
+
