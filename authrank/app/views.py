@@ -6,7 +6,7 @@ from app import app
 import os
 import zipfile
 
-from app import compare_rank, sys_update, get_top_authors, get_top_papers, sub_mapping
+from app import compare_rank, sys_update, get_top_authors, get_top_papers, sub_mapping, auth_profile
 
 def allowed_file(filename):
     return '.' in filename and  filename.rsplit('.', 1)[1] == 'zip'
@@ -93,3 +93,11 @@ def top_papers():
             data = get_top_papers.get_top_papers(cat, lim)
 
     return render_template('top_papers.html', is_resp=is_resp, error_code = error_code, data = data, title = title)
+
+
+@app.route('/author/<author_name>', methods=['GET', 'POST'])
+def author_profile(author_name):
+    data = auth_profile.author_profile(author_name.replace('+', ' '))
+    return render_template('author_profile.html', data = data, name = author_name.replace('+', ' '))
+
+

@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+      <div>
+      <div class="col-lg-12">
+                <h2 class="page-header" align="center">
+                    {{ name }}
+                </h2>
+      </div>
+
+
+      {% if data | length == 0 %}
+            <div class="alert alert-info">
+            <p>No records found</p>
+            </div>
+
+        {% else %}
+             <h3> Top Papers </h3><br>
+            {% set i = 1 %}
+            {% for item in data %}
+              <b>{{ i }}. </b>{{ item}}<br>
+              {% set i = i + 1%}
+              {% endfor %}
+      {% endif %}
+
+
+
+
+{% endblock %}
