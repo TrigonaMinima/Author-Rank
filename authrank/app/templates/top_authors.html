@@ -85,7 +85,7 @@
 
                                 {% set i = 1 %}
                                 {% for item in data %}
-                                  <b>{{ i }}. </b>{{ item}}<br>
+                                  <b>{{ i }}. </b><a href="/author/{{ item.replace(' ','+') }}">{{ item}}</a><br>
                                   {% set i = i + 1%}
                                   {% endfor %}
                           {% endif %}
