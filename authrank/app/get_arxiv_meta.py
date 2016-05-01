@@ -39,7 +39,10 @@ def clean(id):
     new_id =id
     if not new_id[:1].isdigit():
         m = re.search("\d", id)
-        pos = m.start()
+        try:
+            pos = m.start()
+        except:
+            pos = len(id) - 1
         new_id = id[:pos] + '/' + id[pos:]
     return new_id
 
