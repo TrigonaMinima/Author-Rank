@@ -1,0 +1,146 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+    <div class="container">
+
+        <!-- Marketing Icons Section -->
+
+
+                 <div align="center">
+
+
+      <br><br>
+      <div class="col-lg-12">
+      <div style="clear: both">
+    	<h1 style="display: inline;">ResCom</h1>
+    	<h3 style="display: inline;">search</h3>
+      </div>
+	<hr />
+	</div>
+
+      <form class="form-inline" action = "/search" method = "POST"  enctype = "multipart/form-data">
+         <div class="form-group">
+         <div class="input-group margin-bottom-sm">
+         <input class="form-control" type = "text" name = "term" placeholder = "Enter Search term"
+         {% if is_resp %}
+            value = "{{meta['title'].replace('+',' ')}}"
+         {% endif %}  />
+
+         </div>
+         </div>
+
+<div class="form-group">
+        Search In
+         <select name="type">
+<option value='all' {% if meta['typ'] == 'all' %} selected {% endif %}>All</option>
+<option value='ti' {% if meta['typ'] == 'ti' %} selected {% endif %}>Title</option>
+<option value='abs' {% if meta['typ'] == 'abs' %} selected {% endif %}>Abstract</option>
+<option value='au' {% if meta['typ'] == 'au' %} selected {% endif %}>Author</option>
+</select>
+</div>
+<div class="form-group">
+        Domain
+         <select name="cat">
+<option value='all'>All</option>
+<option value='cs.AR' {% if meta['cat'] == 'cs.AR' %} selected {% endif %}>Computer Science - Architecture</option>
+<option value='cs.AI' {% if meta['cat'] == 'cs.AI' %} selected {% endif %}>Computer Science - Artificial Intelligence</option>
+<option value='cs.CL'{% if meta['cat'] == 'cs.CL' %} selected {% endif %}>Computer Science - Computation and Language</option>
+<option value='cs.CC'{% if meta['cat'] == 'cs.CC' %} selected {% endif %}>Computer Science - Computational Complexity</option>
+<option value='cs.CE'{% if meta['cat'] == 'cs.CE' %} selected {% endif %}>Computer Science - Computational Engineering; Finance; and Science</option>
+<option value='cs.CG'{% if meta['cat'] == 'cs.CG' %} selected {% endif %}>Computer Science - Computational Geometry</option>
+<option value='cs.GT'{% if meta['cat'] == 'cs.GT' %} selected {% endif %}>Computer Science - Computer Science and Game Theory</option>
+<option value='cs.CV'{% if meta['cat'] == 'cs.CV' %} selected {% endif %}>Computer Science - Computer Vision and Pattern Recognition</option>
+<option value='cs.CY'{% if meta['cat'] == 'cs.CY' %} selected {% endif %}>Computer Science - Computers and Society</option>
+<option value='cs.CR'{% if meta['cat'] == 'cs.CR' %} selected {% endif %}>Computer Science - Cryptography and Security</option>
+<option value='cs.DS'{% if meta['cat'] == 'cs.DS' %} selected {% endif %}>Computer Science - Data Structures and Algorithms</option>
+<option value='cs.DB'{% if meta['cat'] == 'cs.DB' %} selected {% endif %}>Computer Science - Databases</option>
+<option value='cs.DL'{% if meta['cat'] == 'cs.DL' %} selected {% endif %}>Computer Science - Digital Libraries</option>
+<option value='cs.DM'{% if meta['cat'] == 'cs.DM' %} selected {% endif %}>Computer Science - Discrete Mathematics</option>
+<option value='cs.DC'{% if meta['cat'] == 'cs.DC' %} selected {% endif %}>Computer Science - Distributed; Parallel; and Cluster Computing</option>
+<option value='cs.GL'{% if meta['cat'] == 'cs.GL' %} selected {% endif %}>Computer Science - General Literature</option>
+<option value='cs.GR'{% if meta['cat'] == 'cs.GR' %} selected {% endif %}>Computer Science - Graphics</option>
+<option value='cs.HC'{% if meta['cat'] == 'cs.HC' %} selected {% endif %}>Computer Science - Human-Computer Interaction</option>
+<option value='cs.IR'{% if meta['cat'] == 'cs.IR' %} selected {% endif %}>Computer Science - Information Retrieval</option>
+<option value='cs.IT'{% if meta['cat'] == 'cs.IT' %} selected {% endif %}>Computer Science - Information Theory</option>
+<option value='cs.LG'{% if meta['cat'] == 'cs.LG' %} selected {% endif %}>Computer Science - Learning</option>
+<option value='cs.LO'{% if meta['cat'] == 'cs.LO' %} selected {% endif %}>Computer Science - Logic in Computer Science</option>
+<option value='cs.MS'{% if meta['cat'] == 'cs.MS' %} selected {% endif %}>Computer Science - Mathematical Software</option>
+<option value='cs.MA'{% if meta['cat'] == 'cs.MA' %} selected {% endif %}>Computer Science - Multiagent Systems</option>
+<option value='cs.MM'{% if meta['cat'] == 'cs.MM' %} selected {% endif %}>Computer Science - Multimedia</option>
+<option value='cs.NI'{% if meta['cat'] == 'cs.NI' %} selected {% endif %}>Computer Science - Networking and Internet Architecture</option>
+<option value='cs.NE'{% if meta['cat'] == 'cs.NE' %} selected {% endif %}>Computer Science - Neural and Evolutionary Computing</option>
+<option value='cs.NA'{% if meta['cat'] == 'cs.NA' %} selected {% endif %}>Computer Science - Numerical Analysis</option>
+<option value='cs.OS'{% if meta['cat'] == 'cs.OS' %} selected {% endif %}>Computer Science - Operating Systems</option>
+<option value='cs.OH'{% if meta['cat'] == 'cs.OH' %} selected {% endif %}>Computer Science - Other</option>
+<option value='cs.PF'{% if meta['cat'] == 'cs.PF' %} selected {% endif %}>Computer Science - Performance</option>
+<option value='cs.PL'{% if meta['cat'] == 'cs.PL' %} selected {% endif %}>Computer Science - Programming Languages</option>
+<option value='cs.RO'{% if meta['cat'] == 'cs.RO' %} selected {% endif %}>Computer Science - Robotics</option>
+<option value='cs.SE'{% if meta['cat'] == 'cs.SE' %} selected {% endif %}>Computer Science - Software Engineering</option>
+<option value='cs.SD'{% if meta['cat'] == 'cs.SD' %} selected {% endif %}>Computer Science - Sound</option>
+<option value='cs.SC'{% if meta['cat'] == 'cs.SC' %} selected {% endif %}>Computer Science - Symbolic Computation</option>
+
+  </select>
+  </div>
+
+<button type="submit" class="btn btn-default">Search</button>
+      </form>
+</div>
+
+
+
+  {% if is_resp %}
+
+  {% if data | length == 0 %}
+
+  	<br><br>
+  	<div class="alert alert-info">
+            <p>No records found</p>
+            </div>
+
+  {% else %}
+
+
+<br>
+<div class="alert alert-success" role="alert">Search results for the term  '<b>{{meta['title'].replace('+',' ')}}</b>'</div>
+
+
+    {% for c,d in data.items() %}
+      <div>
+      <div class="panel panel-default">
+       <div class="panel-heading">
+      <h3 class="panel-title"><b>{{d['tit']}}</b></h3>
+      </div>
+      <div class="panel-body">
+      Author(s) :
+      {% set limit = d['aut']|length %}
+      {% set count = 0 %}
+      {% for aut in d['aut'] %}
+      	{% set count = count + 1%}
+      	<a href="/author/{{aut.decode('utf-8').replace(' ','+')}}" <h5 style="display: inline;">{{aut.decode('utf-8')}}</h5></a>
+      	{%if count != limit %},{% endif %}
+      {% endfor %}
+      <br>
+      Domain(s) :
+      {% set limit = d['cat']|length %}
+      {% set count = 0 %}
+      {% for cat in d['cat'] %}
+      	{% set count = count + 1%}
+      	<h5 style="display: inline;">{{cat}}</h5>
+      	{%if count != limit %},{% endif %}
+      {% endfor %}
+	&nbsp;&nbsp;&nbsp;&nbsp;
+      <a style="float:right;" class="btn btn-primary btn-xs" href="/compare/{{d['id'][:-2].replace('/','+')}}">Compare Authors</a>
+      </div>
+      </div>
+      </div>
+
+
+
+{% endfor %}
+
+
+
+{% endif %}
+{% endif %}
+
+{% endblock %}
