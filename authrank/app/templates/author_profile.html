@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block body %}
 
-      <div>
+
       <div class="col-lg-12">
                 <h2 class="page-header" align="center">
                     {{ name }}
@@ -15,7 +15,7 @@
             </div>
 
         {% else %}
-             <h3> Top Papers </h3><br>
+             <h3>Papers Published</h3><br>
             {% set i = 1 %}
             {% for item in data %}
               <b>{{ i }}. </b>{{ item}}<br>

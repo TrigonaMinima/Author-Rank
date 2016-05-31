@@ -1,44 +1,38 @@
 {% extends 'layout.html' %}
 {% block body %}
 
-      <div align="center">
-      <div class="col-lg-12">
-                <h2 class="page-header" align="center">
-                    Compare Author Ranks
-                </h2>
+<br>
+<br>
+
+      <div class="panel panel-default">
+       <div class="panel-heading">
+      <h3 class="panel-title"><b>{{data['T']}}</b></h3>
       </div>
+      <div class="panel-body">
 
-      <form action = "" method = "POST"  enctype = "multipart/form-data">
-      <h4>Search for the research paper on <a href="http://www.arxiv.org" target="_blank">Arxiv</a> website and enter Arxiv ID</h4>
-         <div class="input-group margin-bottom-sm">
-         <input class="form-control" type = "text" name = "id" placeholder = "Enter Arxiv ID here" />
-         </div>
-         <br>
-         <input  class="btn btn-success btn-sm" type = "submit"/>
-      </form>
-      </div>
-
-  {% if is_resp %}
-
-  <h3>Title : <b>{{ rank_list['T'] }}</b></h3>
-
-    {% for c,d in rank_list['rank'].items() %}
-      <h3>Category :  <b>{{c}}</b></h3>
+      {% for c,d in data['rank'].items() %}
+      Category :  <b>{{c}}</b>
+      <ul>
 
       {% for e,f in d.items() %}
-        <div><p>{{ e }}
+        <li><a href="/author/{{e.replace(' ','+')}}">{{ e }}</a>
 
         {% if not f %}
           <b>---Insufficient data---</b>
         {% else %}
           has rank
-        <b>{{ f }}</b></p></div>
+        <b>{{ f }}</b></li>
         {% endif %}
 
       {% endfor %}
+      </ul>
 
   {% endfor %}
 
-{% endif %}
+</div>
+</div>
+
+
+
 
 {% endblock %}

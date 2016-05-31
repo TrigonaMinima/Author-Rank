@@ -1,68 +1,69 @@
 {% extends 'layout.html' %}
 {% block body %}
 
-      <div align="center">
+   <div align="center">
       <div class="col-lg-12">
                 <h2 class="page-header" align="center">
-                    Get Top Authors
+                    Get Top Papers
                 </h2>
       </div>
 
-      <form action = "" method = "POST"  enctype = "multipart/form-data">
-      <h4>Enter domain and number of authors you want to retreive</h4>
-      <br>
+      <form class="form-inline" action = "" method = "POST"  enctype = "multipart/form-data">
+      <div class="form-group">
 
         Domain
          <select name="cat">
-    <option value='cs.AR'>Computer Science - Architecture</option>
-<option value='cs.AI'>Computer Science - Artificial Intelligence</option>
-<option value='cs.CL'>Computer Science - Computation and Language</option>
-<option value='cs.CC'>Computer Science - Computational Complexity</option>
-<option value='cs.CE'>Computer Science - Computational Engineering; Finance; and Science</option>
-<option value='cs.CG'>Computer Science - Computational Geometry</option>
-<option value='cs.GT'>Computer Science - Computer Science and Game Theory</option>
-<option value='cs.CV'>Computer Science - Computer Vision and Pattern Recognition</option>
-<option value='cs.CY'>Computer Science - Computers and Society</option>
-<option value='cs.CR'>Computer Science - Cryptography and Security</option>
-<option value='cs.DS'>Computer Science - Data Structures and Algorithms</option>
-<option value='cs.DB'>Computer Science - Databases</option>
-<option value='cs.DL'>Computer Science - Digital Libraries</option>
-<option value='cs.DM'>Computer Science - Discrete Mathematics</option>
-<option value='cs.DC'>Computer Science - Distributed; Parallel; and Cluster Computing</option>
-<option value='cs.GL'>Computer Science - General Literature</option>
-<option value='cs.GR'>Computer Science - Graphics</option>
-<option value='cs.HC'>Computer Science - Human-Computer Interaction</option>
-<option value='cs.IR'>Computer Science - Information Retrieval</option>
-<option value='cs.IT'>Computer Science - Information Theory</option>
-<option value='cs.LG'>Computer Science - Learning</option>
-<option value='cs.LO'>Computer Science - Logic in Computer Science</option>
-<option value='cs.MS'>Computer Science - Mathematical Software</option>
-<option value='cs.MA'>Computer Science - Multiagent Systems</option>
-<option value='cs.MM'>Computer Science - Multimedia</option>
-<option value='cs.NI'>Computer Science - Networking and Internet Architecture</option>
-<option value='cs.NE'>Computer Science - Neural and Evolutionary Computing</option>
-<option value='cs.NA'>Computer Science - Numerical Analysis</option>
-<option value='cs.OS'>Computer Science - Operating Systems</option>
-<option value='cs.OH'>Computer Science - Other</option>
-<option value='cs.PF'>Computer Science - Performance</option>
-<option value='cs.PL'>Computer Science - Programming Languages</option>
-<option value='cs.RO'>Computer Science - Robotics</option>
-<option value='cs.SE'>Computer Science - Software Engineering</option>
-<option value='cs.SD'>Computer Science - Sound</option>
-<option value='cs.SC'>Computer Science - Symbolic Computation</option>
+<option value='cs.AR' {% if meta['cat'] == 'cs.AR' %} selected {% endif %}>Computer Science - Architecture</option>
+<option value='cs.AI' {% if meta['cat'] == 'cs.AI' %} selected {% endif %}>Computer Science - Artificial Intelligence</option>
+<option value='cs.CL'{% if meta['cat'] == 'cs.CL' %} selected {% endif %}>Computer Science - Computation and Language</option>
+<option value='cs.CC'{% if meta['cat'] == 'cs.CC' %} selected {% endif %}>Computer Science - Computational Complexity</option>
+<option value='cs.CE'{% if meta['cat'] == 'cs.CE' %} selected {% endif %}>Computer Science - Computational Engineering; Finance; and Science</option>
+<option value='cs.CG'{% if meta['cat'] == 'cs.CG' %} selected {% endif %}>Computer Science - Computational Geometry</option>
+<option value='cs.GT'{% if meta['cat'] == 'cs.GT' %} selected {% endif %}>Computer Science - Computer Science and Game Theory</option>
+<option value='cs.CV'{% if meta['cat'] == 'cs.CV' %} selected {% endif %}>Computer Science - Computer Vision and Pattern Recognition</option>
+<option value='cs.CY'{% if meta['cat'] == 'cs.CY' %} selected {% endif %}>Computer Science - Computers and Society</option>
+<option value='cs.CR'{% if meta['cat'] == 'cs.CR' %} selected {% endif %}>Computer Science - Cryptography and Security</option>
+<option value='cs.DS'{% if meta['cat'] == 'cs.DS' %} selected {% endif %}>Computer Science - Data Structures and Algorithms</option>
+<option value='cs.DB'{% if meta['cat'] == 'cs.DB' %} selected {% endif %}>Computer Science - Databases</option>
+<option value='cs.DL'{% if meta['cat'] == 'cs.DL' %} selected {% endif %}>Computer Science - Digital Libraries</option>
+<option value='cs.DM'{% if meta['cat'] == 'cs.DM' %} selected {% endif %}>Computer Science - Discrete Mathematics</option>
+<option value='cs.DC'{% if meta['cat'] == 'cs.DC' %} selected {% endif %}>Computer Science - Distributed; Parallel; and Cluster Computing</option>
+<option value='cs.GL'{% if meta['cat'] == 'cs.GL' %} selected {% endif %}>Computer Science - General Literature</option>
+<option value='cs.GR'{% if meta['cat'] == 'cs.GR' %} selected {% endif %}>Computer Science - Graphics</option>
+<option value='cs.HC'{% if meta['cat'] == 'cs.HC' %} selected {% endif %}>Computer Science - Human-Computer Interaction</option>
+<option value='cs.IR'{% if meta['cat'] == 'cs.IR' %} selected {% endif %}>Computer Science - Information Retrieval</option>
+<option value='cs.IT'{% if meta['cat'] == 'cs.IT' %} selected {% endif %}>Computer Science - Information Theory</option>
+<option value='cs.LG'{% if meta['cat'] == 'cs.LG' %} selected {% endif %}>Computer Science - Learning</option>
+<option value='cs.LO'{% if meta['cat'] == 'cs.LO' %} selected {% endif %}>Computer Science - Logic in Computer Science</option>
+<option value='cs.MS'{% if meta['cat'] == 'cs.MS' %} selected {% endif %}>Computer Science - Mathematical Software</option>
+<option value='cs.MA'{% if meta['cat'] == 'cs.MA' %} selected {% endif %}>Computer Science - Multiagent Systems</option>
+<option value='cs.MM'{% if meta['cat'] == 'cs.MM' %} selected {% endif %}>Computer Science - Multimedia</option>
+<option value='cs.NI'{% if meta['cat'] == 'cs.NI' %} selected {% endif %}>Computer Science - Networking and Internet Architecture</option>
+<option value='cs.NE'{% if meta['cat'] == 'cs.NE' %} selected {% endif %}>Computer Science - Neural and Evolutionary Computing</option>
+<option value='cs.NA'{% if meta['cat'] == 'cs.NA' %} selected {% endif %}>Computer Science - Numerical Analysis</option>
+<option value='cs.OS'{% if meta['cat'] == 'cs.OS' %} selected {% endif %}>Computer Science - Operating Systems</option>
+<option value='cs.OH'{% if meta['cat'] == 'cs.OH' %} selected {% endif %}>Computer Science - Other</option>
+<option value='cs.PF'{% if meta['cat'] == 'cs.PF' %} selected {% endif %}>Computer Science - Performance</option>
+<option value='cs.PL'{% if meta['cat'] == 'cs.PL' %} selected {% endif %}>Computer Science - Programming Languages</option>
+<option value='cs.RO'{% if meta['cat'] == 'cs.RO' %} selected {% endif %}>Computer Science - Robotics</option>
+<option value='cs.SE'{% if meta['cat'] == 'cs.SE' %} selected {% endif %}>Computer Science - Software Engineering</option>
+<option value='cs.SD'{% if meta['cat'] == 'cs.SD' %} selected {% endif %}>Computer Science - Sound</option>
+<option value='cs.SC'{% if meta['cat'] == 'cs.SC' %} selected {% endif %}>Computer Science - Symbolic Computation</option>
 
   </select>
-
-  Limit
+</div>
+<div class="form-group">
+  Number of Authors
          <select name="lim">
-    <option value=5>5</option>
-<option value=10>10</option>
-<option value=50>50</option>
-<option value=100>100</option>
+    <option value=5 {% if meta['lim'] == '5' %} selected {% endif %}>5</option>
+<option value=10 {% if meta['lim'] == '10' %} selected {% endif %}>10</option>
+<option value=50 {% if meta['lim'] == '50' %} selected {% endif %}>50</option>
+<option value=100 {% if meta['lim'] == '100' %} selected {% endif %}>100</option>
 </select>
+</div>
 
-  <br><br>
-         <input  class="btn btn-success btn-sm" type = "submit"/>
+         <button type="submit" class="btn btn-default">Submit</button>
+
       </form>
       </div>
 

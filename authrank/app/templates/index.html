@@ -2,15 +2,89 @@
     {% extends 'layout.html' %}
     {% block body %}
     <!-- Page Content -->
+
+
     <div class="container">
 
         <!-- Marketing Icons Section -->
-        <div class="row">
-            <div class="col-lg-12">
+
+
+                 <div align="center">
+      <div class="col-lg-12">
                 <h1 class="page-header" align="center">
                     Welcome to ResCom - Research Companion Tool
                 </h1>
-            </div>
+      </div>
+
+
+      <form class="form-inline" action = "/search" method = "POST"  enctype = "multipart/form-data">
+         <div class="form-group">
+         <div class="input-group margin-bottom-sm">
+         <input class="form-control" type = "text" name = "term" placeholder = "Enter Search term"
+         {% if is_resp %}
+            value = "{{title.replace('+',' ')}}"
+         {% endif %}  />
+
+         </div>
+         </div>
+
+<div class="form-group">
+        Search In
+         <select name="type">
+<option value='all'>All</option>
+<option value='ti'>Title</option>
+<option value='abs'>Abstract</option>
+<option value='au'>Author</option>
+</select>
+</div>
+<div class="form-group">
+        Domain
+         <select name="cat">
+<option value='all'>All</option>
+<option value='cs.AR'>Computer Science - Architecture</option>
+<option value='cs.AI' >Computer Science - Artificial Intelligence</option>
+<option value='cs.CL'>Computer Science - Computation and Language</option>
+<option value='cs.CC'>Computer Science - Computational Complexity</option>
+<option value='cs.CE'>Computer Science - Computational Engineering; Finance; and Science</option>
+<option value='cs.CG'>Computer Science - Computational Geometry</option>
+<option value='cs.GT'>Computer Science - Computer Science and Game Theory</option>
+<option value='cs.CV'>Computer Science - Computer Vision and Pattern Recognition</option>
+<option value='cs.CY'>Computer Science - Computers and Society</option>
+<option value='cs.CR'>Computer Science - Cryptography and Security</option>
+<option value='cs.DS'>Computer Science - Data Structures and Algorithms</option>
+<option value='cs.DB'>Computer Science - Databases</option>
+<option value='cs.DL'>Computer Science - Digital Libraries</option>
+<option value='cs.DM'>Computer Science - Discrete Mathematics</option>
+<option value='cs.DC'>Computer Science - Distributed; Parallel; and Cluster Computing</option>
+<option value='cs.GL'>Computer Science - General Literature</option>
+<option value='cs.GR'>Computer Science - Graphics</option>
+<option value='cs.HC'>Computer Science - Human-Computer Interaction</option>
+<option value='cs.IR'>Computer Science - Information Retrieval</option>
+<option value='cs.IT'>Computer Science - Information Theory</option>
+<option value='cs.LG'>Computer Science - Learning</option>
+<option value='cs.LO'>Computer Science - Logic in Computer Science</option>
+<option value='cs.MS'>Computer Science - Mathematical Software</option>
+<option value='cs.MA'>Computer Science - Multiagent Systems</option>
+<option value='cs.MM'>Computer Science - Multimedia</option>
+<option value='cs.NI'>Computer Science - Networking and Internet Architecture</option>
+<option value='cs.NE'>Computer Science - Neural and Evolutionary Computing</option>
+<option value='cs.NA'>Computer Science - Numerical Analysis</option>
+<option value='cs.OS'>Computer Science - Operating Systems</option>
+<option value='cs.OH'>Computer Science - Other</option>
+<option value='cs.PF'>Computer Science - Performance</option>
+<option value='cs.PL'>Computer Science - Programming Languages</option>
+<option value='cs.RO'>Computer Science - Robotics</option>
+<option value='cs.SE'>Computer Science - Software Engineering</option>
+<option value='cs.SD'>Computer Science - Sound</option>
+<option value='cs.SC'>Computer Science - Symbolic Computation</option>
+
+  </select>
+  </div>
+
+<button type="submit" class="btn btn-default">Search</button>
+      </form>
+</div>
+<br>
             <div class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -29,7 +103,7 @@
                     </div>
                     <div class="panel-body">
                         <p>Compare the ranks of the authors of a given paper in all its domains.</p>
-                        <a href="/compare" class="btn btn-default">Get Started</a>
+                        <a href="/compare-authors" class="btn btn-default">Get Started</a>
                     </div>
                 </div>
             </div>
