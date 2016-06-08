@@ -6,7 +6,7 @@ from app import app
 import os
 import zipfile
 
-from app import compare_rank, sys_update, get_top_authors, get_top_papers, sub_mapping, auth_profile, search_arxiv
+from app import compare_rank, sys_update, get_top_authors, get_top_papers, sub_mapping, auth_profile, search_arxiv, auto_feed
 
 def allowed_file(filename):
     return '.' in filename and  filename.rsplit('.', 1)[1] == 'zip'
@@ -20,7 +20,6 @@ def index():
 @app.route('/compare/<id>', methods = ['GET'])
 def compare(id):
    rank = compare_rank.compare_rank(id.replace('+','/'))
-   print(rank)
 
    return render_template('compare.html', data=rank)
 
@@ -37,30 +36,17 @@ def compare_authors():
 
    return render_template('compare_authors.html', is_resp = is_resp, rank_list=rank)
 
-@app.route('/feed', methods=['GET', 'POST'])
-def feed():
-    error_code = 0
-    is_resp = False
-    data = None
 
+@app.route('/update', methods=['GET', 'POST'])
+def update():
+    data = {}
+    is_resp = False
     if request.method == 'POST':
         is_resp = True
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        url = 'http://arxiv.org/list/cs/new?skip=60&show=10'
+        data = auto_feed.auto_feed(url)
 
-            data = sys_update.graph_update(file.filename)
-            if not data:
-                    error_code = 2
-            elif data['E'] == True:
-                    error_code = 3
-
-        else:
-            error_code = 1
-
-
-    return render_template('feed.html', is_resp=is_resp, error_code = error_code, data = data)
+    return render_template('update.html', data = data, is_resp = is_resp)
 
 
 @app.route('/top-authors', methods=['GET', 'POST'])
@@ -133,3 +119,8 @@ def search():
         data = search_arxiv.search_arxiv(term, typ, cat)
 
     return render_template('search.html', is_resp=is_resp, error_code = error_code, data = data, meta = meta)
+
+if __name__ == "__main__":
+    a = datetime.datetime.now().hour
+    if a == 0:
+        print("HELLO")

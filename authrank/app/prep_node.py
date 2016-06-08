@@ -1,11 +1,11 @@
 import os,sys
-import zipfile
+import zipfile, tarfile
 
 from app import extract_refs, hashish, get_arxiv_meta, sub_mapping
 from py2neo import authenticate, Graph, Node, Relationship
 
 
-def prep_node(graph, f3, in2, ppr_id, meta_res, update = False):
+def prep_node(graph, f3, in2,  meta_res):
 
     # Node creation
 
@@ -13,13 +13,11 @@ def prep_node(graph, f3, in2, ppr_id, meta_res, update = False):
     text = ''
     available = False
 
-    if update:
-        item_count = 1
-    else:
-        item_count = len(os.listdir(in2))
+    item_count = 1
 
     c_title = hashish.compress(meta_res['tit'])
     rp_node = graph.find_one("Paper", "id", hashish.get_hash(c_title))
+
     if rp_node:
         rp = rp_node
         rp['complete'] = "T"
@@ -62,17 +60,31 @@ def prep_node(graph, f3, in2, ppr_id, meta_res, update = False):
 
     # Extract References
 
-    in3 = in2 + '/' + ppr_id
+    in3 = in2 + '/' + f3
 
+    os.mkdir(in3+"full")
+
+    try:
+        tar = tarfile.open(in3)
+        tar.extractall(in3+"full")
+        tar.close()
+    except:
+        try:
+            with zipfile.ZipFile(in3,"r") as zeep:
+                zeep.extractall(in3+"full")
+        except:
+            return []
+
+    '''
     if item_count == 1:
         with zipfile.ZipFile(in2+"/"+f3,"r") as zeep:
             os.makedirs(in3)
             zeep.extractall(in3)
-
-    for f4 in os.listdir(in3):
+'''
+    for f4 in os.listdir(in3+"full"):
             if f4.lower().endswith(".bbl"):
                 available = True
-                with open(in3+ '/' +f4) as f:
+                with open(in3+'full'+ '/' +f4) as f:
                     try:
                         text = text + '\n' + f.read()
                     except:
@@ -80,10 +92,10 @@ def prep_node(graph, f3, in2, ppr_id, meta_res, update = False):
                 break
 
     if not available:
-        for f4 in os.listdir(in3):
+        for f4 in os.listdir(in3+"full"):
             if f4.lower().endswith(".tex"):
                 available = True
-                with open(in3+ '/' +f4) as f:
+                with open(in3+ 'full'+ '/' +f4) as f:
                     try:
                         text = text + '\n' + f.read()
                     except:
@@ -94,6 +106,8 @@ def prep_node(graph, f3, in2, ppr_id, meta_res, update = False):
 
     if available:
         refs = extract_refs.lets_hit_it(text)
+
+
 
         ref_list = []
         ref_list.append(rp['q_score'])
@@ -115,6 +129,7 @@ def prep_node(graph, f3, in2, ppr_id, meta_res, update = False):
             if len(list(graph.match(start_node=rp, end_node=ppr, rel_type="Refers"))) == 0 and (rp != ppr):
                 graph.create(Relationship(rp, "Refers", ppr))
                 ref_list.append(ppr)
+
 
     return ref_list
 

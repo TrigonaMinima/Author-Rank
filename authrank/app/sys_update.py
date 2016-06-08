@@ -3,7 +3,7 @@
 from py2neo import authenticate, Graph, Node, Relationship
 import queue
 
-from app import prep_node, get_arxiv_meta, hashish
+from app import prep_node, get_arxiv_meta, hashish, sub_mapping
 
 graph = Graph("http://localhost:7474/db/data")
 
@@ -30,15 +30,16 @@ def update_graph_algo(q, c):
             node['q_score'] = node['q_score'] + n_sc - o_sc
             node.push()
             c += 1
-            #print(node['name'], old_qs, node['q_score'])
+
             q.put((node, old_qs, node['q_score']))
     return c
 
 def graph_update(fl_name):
     disp_data = {}
     update_queue = queue.Queue()
-    ppr_id = fl_name.replace('.zip','')
-    meta_res = get_arxiv_meta.call_api(ppr_id)
+
+
+    meta_res = get_arxiv_meta.call_api(fl_name)
 
     try:
         c_title = hashish.compress(meta_res['tit'])
@@ -46,19 +47,26 @@ def graph_update(fl_name):
         return None
 
 
-    disp_data['T'] = meta_res['tit']
-    disp_data['E']  = True
+
     ref_list = []
+
     updated_node_count = 0
     rp_node = graph.find_one("Paper", "id", hashish.get_hash(c_title))
 
-
     if not rp_node or rp_node['complete'] == "F":
         filename = fl_name
-        disp_data['E'] = False
-        path = '/home/beingcooper/Desktop/authrank/uploads'
+
+        path = '/home/beingcooper/Documents/Author-Rank/authrank/uploads'
         updated_node_count+=1
-        ref_list = prep_node.prep_node(graph, filename, path, ppr_id, meta_res, True)
+        ref_list = prep_node.prep_node(graph, filename, path, meta_res)
+        if len(ref_list) > 0:
+            disp_data['tit'] = meta_res['tit']
+            disp_data['aut'] = meta_res['aut']
+            disp_data['cat'] = []
+            for category in meta_res['cat']:
+                subject_name = sub_mapping.map_id_to_name(category.decode('utf-8').strip())
+            if subject_name:
+                    disp_data['cat'].append(subject_name)
 
     try:
         add_score = ref_list[0]
@@ -79,7 +87,7 @@ def graph_update(fl_name):
         updated_node_count = update_graph_algo(update_queue, updated_node_count)
 
 
-    disp_data['C'] =  updated_node_count
+    #disp_data['C'] =  updated_node_count
     return disp_data
 
 

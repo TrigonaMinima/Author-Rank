@@ -10,7 +10,6 @@ from app import sub_mapping
 
 graph = Graph("http://localhost:7474/db/data")
 
-
 def form_query(te, typ, cat):
     url = "http://export.arxiv.org/api/query?search_query="+typ+":'"+te+"'"
     if cat != 'all':
