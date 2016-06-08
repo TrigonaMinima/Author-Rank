@@ -1,14 +1,13 @@
-import os,sys
-import zipfile, tarfile
+import os
+import zipfile
+import tarfile
 
 from app import extract_refs, hashish, get_arxiv_meta, sub_mapping
 from py2neo import authenticate, Graph, Node, Relationship
 
 
 def prep_node(graph, f3, in2,  meta_res):
-
     # Node creation
-
     refs = []
     text = ''
     available = False
@@ -23,7 +22,8 @@ def prep_node(graph, f3, in2,  meta_res):
         rp['complete'] = "T"
         rp.push()
     else:
-        rp = Node("Paper", name = c_title, id = hashish.get_hash(c_title), title = meta_res['tit'], q_score = 0.01, complete = "T")
+        rp = Node("Paper", name=c_title, id=hashish.get_hash(c_title),
+                  title=meta_res['tit'], q_score=0.01, complete="T")
         graph.create(rp)
 
     for a in meta_res['aut']:
@@ -41,7 +41,6 @@ def prep_node(graph, f3, in2,  meta_res):
 
         graph.create(Relationship(aut, "Published", rp))
 
-
     for c in meta_res['cat']:
         C = c.decode('utf-8')
         subject_name = sub_mapping.map_id_to_name(C)
@@ -53,25 +52,23 @@ def prep_node(graph, f3, in2,  meta_res):
         if category_node:
             cat = category_node
         else:
-            cat = Node("Category", name=C, subject = subject_name)
+            cat = Node("Category", name=C, subject=subject_name)
             graph.create(cat)
         graph.create(Relationship(rp, "BelongsTo", cat))
 
-
     # Extract References
-
     in3 = in2 + '/' + f3
 
-    os.mkdir(in3+"full")
+    os.mkdir(in3 + "full")
 
     try:
         tar = tarfile.open(in3)
-        tar.extractall(in3+"full")
+        tar.extractall(in3 + "full")
         tar.close()
     except:
         try:
-            with zipfile.ZipFile(in3,"r") as zeep:
-                zeep.extractall(in3+"full")
+            with zipfile.ZipFile(in3, "r") as zeep:
+                zeep.extractall(in3 + "full")
         except:
             return []
 
@@ -81,33 +78,29 @@ def prep_node(graph, f3, in2,  meta_res):
             os.makedirs(in3)
             zeep.extractall(in3)
 '''
-    for f4 in os.listdir(in3+"full"):
-            if f4.lower().endswith(".bbl"):
-                available = True
-                with open(in3+'full'+ '/' +f4) as f:
-                    try:
-                        text = text + '\n' + f.read()
-                    except:
-                        pass
-                break
+    for f4 in os.listdir(in3 + "full"):
+        if f4.lower().endswith(".bbl"):
+            available = True
+            with open(in3 + 'full' + '/' + f4) as f:
+                try:
+                    text = text + '\n' + f.read()
+                except:
+                    pass
+            break
 
     if not available:
-        for f4 in os.listdir(in3+"full"):
+        for f4 in os.listdir(in3 + "full"):
             if f4.lower().endswith(".tex"):
                 available = True
-                with open(in3+ 'full'+ '/' +f4) as f:
+                with open(in3 + 'full' + '/' + f4) as f:
                     try:
                         text = text + '\n' + f.read()
                     except:
                         pass
 
-
     # Create Reference Relationship
-
     if available:
         refs = extract_refs.lets_hit_it(text)
-
-
 
         ref_list = []
         ref_list.append(rp['q_score'])
@@ -121,22 +114,12 @@ def prep_node(graph, f3, in2,  meta_res):
             if paper_node:
                 ppr = paper_node
             else:
-                ppr = Node("Paper", name=comp_title, id=h_title, title=ref.lstrip().rstrip(), q_score = 0.01, complete = "F")
+                ppr = Node("Paper", name=comp_title, id=h_title,
+                           title=ref.lstrip().rstrip(), q_score=0.01, complete="F")
                 graph.create(ppr)
-
-
 
             if len(list(graph.match(start_node=rp, end_node=ppr, rel_type="Refers"))) == 0 and (rp != ppr):
                 graph.create(Relationship(rp, "Refers", ppr))
                 ref_list.append(ppr)
 
-
     return ref_list
-
-
-
-
-
-
-
-
