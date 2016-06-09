@@ -15,12 +15,31 @@
             </div>
 
         {% else %}
-             <h3>Papers Published</h3><br>
+
+              <h3>Papers Published</h3><br>
+
+              <table class="table" style="width: 50%">
+              <col width="30">
+              <col width="180">
+              <thead class="thead-default">
+              <tr>
+                <th>#</th>
+                <th>Paper</th>
+              </tr>
+            </thead>
+
             {% set i = 1 %}
             {% for item in data %}
-              <b>{{ i }}. </b>{{ item}}<br>
+
+              <tbody>
+              <tr>
+              <th scope="row">{{ i }}. </th>
+              <td>{{ item}}</td>
               {% set i = i + 1%}
               {% endfor %}
+              </tr>
+              </tbody>
+              </table>
       {% endif %}
 
 

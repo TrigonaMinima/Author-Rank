@@ -43,7 +43,7 @@ def update():
     is_resp = False
     if request.method == 'POST':
         is_resp = True
-        url = 'http://arxiv.org/list/cs/new?skip=60&show=10'
+        url = 'http://arxiv.org/list/cs/new?skip=0&show=2000'
         data = auto_feed.auto_feed(url)
 
     return render_template('update.html', data = data, is_resp = is_resp)

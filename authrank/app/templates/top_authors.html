@@ -84,11 +84,29 @@
                                 </div>
                             {% else %}
 
+                                <table class="table" style="width: 50%">
+                                <col width="30">
+                                <col width="180">
+                                <thead class="thead-default">
+                                <tr>
+                                  <th>#</th>
+                                  <th>Author</th>
+                                </tr>
+                              </thead>
+
                                 {% set i = 1 %}
                                 {% for item in data %}
-                                  <b>{{ i }}. </b><a href="/author/{{ item.replace(' ','+') }}">{{ item}}</a><br>
+                                <tbody>
+                                  <tr>
+                                  <th scope="row">{{ i }}. </th>
+                                  <td><a href="/author/{{ item.replace(' ','+') }}">{{ item}}</a></td>
                                   {% set i = i + 1%}
                                   {% endfor %}
+                          </tr>
+                          </tbody>
+
+                          </table>
+
                           {% endif %}
 
 
