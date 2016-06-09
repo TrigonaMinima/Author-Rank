@@ -1,16 +1,15 @@
-
-# Finding the right reference format
-
 import os
 from app import format_block,  format_comma
 
+
+# Finding the right reference format
 def lets_hit_it(text):
     if not text:
         return []
 
     refs = []
 
-    first_bib = text.find("\\bibitem")+ 9
+    first_bib = text.find("\\bibitem") + 9
     next_bib = text.find("\\bibitem", first_bib)
     bib_text = text[first_bib:next_bib]
 

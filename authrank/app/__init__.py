@@ -1,7 +1,7 @@
 from flask import Flask
 
+from .config import upload_folder
 
-upload_folder = '/home/beingcooper/Desktop/authrank/uploads/'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = upload_folder

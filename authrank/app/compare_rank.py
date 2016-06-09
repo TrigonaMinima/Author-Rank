@@ -1,13 +1,11 @@
-from urllib.request import urlopen
 import feedparser
-
+from urllib.request import urlopen
 from py2neo import authenticate, Graph, Node, Relationship
-from pprint import pprint
 
-graph = Graph("http://localhost:7474/db/data")
+from .config import graph_url, seed
 
+graph = Graph(graph_url)
 
-seed = 'http://export.arxiv.org/api/query?search_query=id:'
 
 query = """
 match (n)-[:Published]->(m)-[:BelongsTo]->(c)
@@ -15,8 +13,9 @@ where c.name = {cat} return n.name, sum(m.q_score) as Score, c.subject
 order by Score DESC;
 """
 
+
 def parse_response(response):
-    resp_dict={}
+    resp_dict = {}
     feed = feedparser.parse(response)
     if not feed.entries:
         return "Not Found"
@@ -25,13 +24,11 @@ def parse_response(response):
 
     author = []
     for aut in feed.entries[0].authors:
-    	author.append(aut.name.strip())
-
+        author.append(aut.name.strip())
 
     category = []
     for cat in feed.entries[0].tags:
-    	category.append(cat['term'].strip())
-
+        category.append(cat['term'].strip())
 
     resp_dict['aut'] = author
     resp_dict['cat'] = category
@@ -39,22 +36,23 @@ def parse_response(response):
 
     return resp_dict
 
+
 def get_rank(C):
-    disp_data={}
-    rank_dict={}
+    disp_data = {}
+    rank_dict = {}
     disp_data['T'] = C['tit']
 
     for c in C['cat']:
-        rank_list=[]
+        rank_list = []
         cat_avalbl = graph.cypher.execute(query, cat=c)
 
         if len(cat_avalbl) == 0:
             continue
 
-        for b in  cat_avalbl:
+        for b in cat_avalbl:
             rank_list.append(b[0])
 
-        aut_rank={}
+        aut_rank = {}
         for a in C['aut']:
             try:
                 aut_rank[a] = rank_list.index(a) + 1
@@ -63,12 +61,9 @@ def get_rank(C):
 
         rank_dict[b[2]] = aut_rank
 
-
     disp_data['rank'] = rank_dict
 
     return disp_data
-
-
 
 
 def compare_rank(id):
@@ -77,8 +72,3 @@ def compare_rank(id):
     content = parse_response(response)
     rank_dict = get_rank(content)
     return rank_dict
-
-
-
-
-

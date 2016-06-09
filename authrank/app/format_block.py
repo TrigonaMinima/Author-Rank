@@ -1,14 +1,12 @@
-
 # For papers where references are provided in the form of blocks
-
 def get_refs(text, num_blocks):
     cont = True
     start = 0
 
-    refs  = []
+    refs = []
 
     while cont:
-        get_bib_item = text.find('\\bibitem',start)
+        get_bib_item = text.find('\\bibitem', start)
         if get_bib_item == -1:
             cont = False
             break
@@ -29,10 +27,8 @@ def get_refs(text, num_blocks):
         else:
             ed = mid
 
-
         ref = text[st:ed]
         refs.append(ref)
         start = ed
 
     return refs
-

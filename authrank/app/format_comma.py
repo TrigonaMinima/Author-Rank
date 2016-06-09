@@ -1,6 +1,4 @@
-
 # For papers where references are provided in comma-separated format
-
 def get_refs(text):
     cont = True
     start = 0
@@ -8,7 +6,7 @@ def get_refs(text):
     refs = []
 
     while cont:
-        get_bib_item = text.find('\\bibitem',start)
+        get_bib_item = text.find('\\bibitem', start)
         if get_bib_item == -1:
             cont = False
             break
