@@ -8,6 +8,7 @@ from py2neo import authenticate, Graph, Node, Relationship
 
 def prep_node(graph, f3, in2,  meta_res):
     # Node creation
+    ref_list = []
     refs = []
     text = ''
     available = False
@@ -102,7 +103,7 @@ def prep_node(graph, f3, in2,  meta_res):
     if available:
         refs = extract_refs.lets_hit_it(text)
 
-        ref_list = []
+
         ref_list.append(rp['q_score'])
         for ref in refs:
             comp_title = hashish.compress(ref)
